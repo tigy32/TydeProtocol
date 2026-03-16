@@ -10,9 +10,10 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "src"],
   "scripts": {
     "build": "tsc",
+    "prepare": "tsc",
     "prepublishOnly": "tsc"
   },
   "devDependencies": {
