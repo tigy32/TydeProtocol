@@ -178,9 +178,9 @@ export interface SessionData {
 
 export interface ChatEventDataByKind {
   MessageAdded: ChatMessage;
-  StreamStart: { message_id: string; agent: string; model: Model };
-  StreamDelta: { message_id: string; text: string };
-  StreamReasoningDelta: { message_id: string; text: string };
+  StreamStart: { message_id?: string; agent: string; model: Model | null };
+  StreamDelta: { message_id?: string; text: string };
+  StreamReasoningDelta: { message_id?: string; text: string };
   StreamEnd: { message: ChatMessage };
   Settings: unknown;
   TypingStatusChanged: boolean;
