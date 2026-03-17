@@ -5,14 +5,6 @@ import type { FileContent, FileEntry, GitFileStatus, ImageAttachment } from "./t
 export type BackendKind = "tycode" | "codex" | "claude" | "kiro";
 export type ConversationMode = "standard" | "bridge";
 
-export type RuntimeAgentStatus =
-  | "queued"
-  | "running"
-  | "waiting_input"
-  | "completed"
-  | "failed"
-  | "cancelled";
-
 export interface RuntimeAgent {
   agent_id: number;
   conversation_id: number;
@@ -21,7 +13,7 @@ export interface RuntimeAgent {
   parent_agent_id: number | null;
   name: string;
   agent_type: string | null;
-  status: RuntimeAgentStatus;
+  is_running: boolean;
   summary: string;
   created_at_ms: number;
   updated_at_ms: number;
@@ -35,7 +27,7 @@ export interface RuntimeAgentEvent {
   agent_id: number;
   conversation_id: number;
   kind: string;
-  status: RuntimeAgentStatus;
+  is_running: boolean;
   timestamp_ms: number;
   message: string | null;
 }
@@ -197,7 +189,7 @@ export interface CommandMap {
     response: RuntimeAgent[];
   };
   wait_for_agent: {
-    params: { agentId: number; until?: string; timeoutMs?: number };
+    params: { agentId: number; timeoutMs?: number };
     response: RuntimeAgent;
   };
   agent_events_since: {

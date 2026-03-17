@@ -76,7 +76,6 @@ export type {
   RuntimeAgent,
   RuntimeAgentEvent,
   RuntimeAgentEventBatch,
-  RuntimeAgentStatus,
   SharedCommand,
   SpawnAgentResponse,
 } from "./commands";
