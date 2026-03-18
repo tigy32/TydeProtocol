@@ -380,6 +380,14 @@ export interface CommandMap {
     params: { requestId: string; ok: boolean; result?: unknown; error?: string };
     response: void;
   };
+  submit_create_workbench_response: {
+    params: { requestId: string; ok: boolean; workspacePath?: string; error?: string };
+    response: void;
+  };
+  set_default_backend: {
+    params: { backend: string };
+    response: void;
+  };
 }
 
 // --- Utility types ---
@@ -405,6 +413,8 @@ export type DesktopOnlyCommand =
   | "get_driver_mcp_http_server_settings"
   | "set_driver_mcp_http_server_enabled"
   | "set_driver_mcp_http_server_autoload_enabled"
-  | "submit_debug_ui_response";
+  | "submit_debug_ui_response"
+  | "submit_create_workbench_response"
+  | "set_default_backend";
 
 export type SharedCommand = Exclude<CommandName, DesktopOnlyCommand>;
