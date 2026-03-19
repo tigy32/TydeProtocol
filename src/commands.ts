@@ -74,6 +74,32 @@ export interface BackendDependencyStatus {
   kiro: BackendDepResult;
 }
 
+export interface WorkflowEntry {
+  id: string;
+  name: string;
+  description: string;
+  trigger: string;
+  steps: WorkflowStepEntry[];
+  scope: "global" | "project";
+}
+
+export interface WorkflowStepEntry {
+  name: string;
+  actions: WorkflowActionEntry[];
+}
+
+export type WorkflowActionEntry =
+  | { type: "run_command"; command: string }
+  | { type: "spawn_agent"; prompt: string; name: string }
+  | { type: "run_workflow"; workflowId: string };
+
+export interface ShellCommandResult {
+  stdout: string;
+  stderr: string;
+  exit_code: number | null;
+  success: boolean;
+}
+
 // --- The command map ---
 
 export interface CommandMap {
@@ -178,6 +204,10 @@ export interface CommandMap {
   };
   terminate_agent: {
     params: { agentId: number };
+    response: void;
+  };
+  rename_agent: {
+    params: { agentId: number; name: string };
     response: void;
   };
   get_agent: {
@@ -388,6 +418,24 @@ export interface CommandMap {
     params: { backend: string };
     response: void;
   };
+
+  // Workflow operations
+  list_workflows: {
+    params: { workspacePath?: string };
+    response: WorkflowEntry[];
+  };
+  save_workflow: {
+    params: { workflowJson: string; scope: string; workspacePath?: string };
+    response: void;
+  };
+  delete_workflow: {
+    params: { id: string; scope: string; workspacePath?: string };
+    response: void;
+  };
+  run_shell_command: {
+    params: { command: string; cwd: string };
+    response: ShellCommandResult;
+  };
 }
 
 // --- Utility types ---
@@ -415,6 +463,10 @@ export type DesktopOnlyCommand =
   | "set_driver_mcp_http_server_autoload_enabled"
   | "submit_debug_ui_response"
   | "submit_create_workbench_response"
-  | "set_default_backend";
+  | "set_default_backend"
+  | "list_workflows"
+  | "save_workflow"
+  | "delete_workflow"
+  | "run_shell_command";
 
 export type SharedCommand = Exclude<CommandName, DesktopOnlyCommand>;

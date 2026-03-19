@@ -77,7 +77,11 @@ export type {
   RuntimeAgentEvent,
   RuntimeAgentEventBatch,
   SharedCommand,
+  ShellCommandResult,
   SpawnAgentResponse,
+  WorkflowActionEntry,
+  WorkflowEntry,
+  WorkflowStepEntry,
 } from "./commands";
 
 // Event protocol.
