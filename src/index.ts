@@ -66,6 +66,7 @@ export type {
   BackendKind,
   CollectedAgentResult,
   CommandMap,
+  CreateConversationResponse,
   CommandName,
   CommandParams,
   CommandResponse,
@@ -75,6 +76,7 @@ export type {
   McpHttpServerSettings,
   RuntimeAgent,
   RuntimeAgentEvent,
+  SessionRecord,
   RuntimeAgentEventBatch,
   SharedCommand,
   ShellCommandResult,
@@ -100,3 +102,7 @@ export type {
   TerminalExitPayload,
   TerminalOutputPayload,
 } from "./events";
+
+// Mock backend for testing.
+export { MockBackend } from "./mock";
+export type { MockBehavior } from "./mock";

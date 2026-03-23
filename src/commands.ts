@@ -100,6 +100,24 @@ export interface ShellCommandResult {
   success: boolean;
 }
 
+export interface SessionRecord {
+  id: string;
+  backend_session_id: string | null;
+  backend_kind: string;
+  alias: string | null;
+  user_alias: string | null;
+  parent_id: string | null;
+  workspace_root: string | null;
+  created_at_ms: number;
+  updated_at_ms: number;
+  message_count: number;
+}
+
+export interface CreateConversationResponse {
+  conversation_id: number;
+  session_id: string;
+}
+
 // --- The command map ---
 
 export interface CommandMap {
@@ -111,7 +129,7 @@ export interface CommandMap {
       ephemeral?: boolean;
       conversationMode?: ConversationMode;
     };
-    response: number;
+    response: CreateConversationResponse;
   };
   send_message: {
     params: {
@@ -145,6 +163,14 @@ export interface CommandMap {
   };
   delete_session: {
     params: { conversationId: number; sessionId: string };
+    response: void;
+  };
+  list_session_records: {
+    params: Record<string, never>;
+    response: SessionRecord[];
+  };
+  rename_session: {
+    params: { id: string; name: string };
     response: void;
   };
   export_session_json: {
