@@ -201,6 +201,7 @@ export interface ChatEventDataByKind {
     backoff_ms: number;
   };
   TaskUpdate: TaskList;
+  SessionStarted: { session_id: string };
   SessionsList: { sessions: SessionMetadata[] };
   ProfilesList: { profiles: string[] };
   ModelsList: {

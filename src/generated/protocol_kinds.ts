@@ -16,6 +16,7 @@ export const GENERATED_CHAT_EVENT_KINDS = [
   "OperationCancelled",
   "RetryAttempt",
   "TaskUpdate",
+  "SessionStarted",
   "SessionsList",
   "ProfilesList",
   "ModelsList",
