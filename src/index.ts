@@ -61,6 +61,11 @@ export { ProtocolParseError, parseChatEvent } from "./protocol";
 
 // Command protocol.
 export type {
+  AgentDefinition,
+  AgentDefinitionEntry,
+  AgentMcpServer,
+  AgentMcpTransportHttp,
+  AgentMcpTransportStdio,
   BackendDependencyStatus,
   BackendDepResult,
   BackendKind,
@@ -70,7 +75,6 @@ export type {
   CommandName,
   CommandParams,
   CommandResponse,
-  ConversationMode,
   DesktopOnlyCommand,
   DriverMcpHttpServerSettings,
   McpHttpServerSettings,
@@ -81,6 +85,7 @@ export type {
   SharedCommand,
   ShellCommandResult,
   SpawnAgentResponse,
+  ToolPolicy,
   WorkflowActionEntry,
   WorkflowEntry,
   WorkflowStepEntry,

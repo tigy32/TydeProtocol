@@ -3,7 +3,6 @@ import type { FileContent, FileEntry, GitFileStatus, ImageAttachment } from "./t
 // --- Shared enums/types used by commands ---
 
 export type BackendKind = "tycode" | "codex" | "claude" | "kiro";
-export type ConversationMode = "standard" | "bridge";
 
 export interface RuntimeAgent {
   agent_id: number;
@@ -13,6 +12,7 @@ export interface RuntimeAgent {
   parent_agent_id: number | null;
   name: string;
   agent_type: string | null;
+  agent_definition_id: string | null;
   is_running: boolean;
   summary: string;
   created_at_ms: number;
@@ -20,6 +20,46 @@ export interface RuntimeAgent {
   ended_at_ms: number | null;
   last_error: string | null;
   last_message: string | null;
+}
+
+export type ToolPolicy =
+  | { mode: "Unrestricted" }
+  | { mode: "AllowList"; tools: string[] }
+  | { mode: "DenyList"; tools: string[] };
+
+export interface AgentMcpTransportHttp {
+  type: "http";
+  url: string;
+  headers?: Record<string, string>;
+}
+
+export interface AgentMcpTransportStdio {
+  type: "stdio";
+  command: string;
+  args?: string[];
+  env?: Record<string, string>;
+}
+
+export interface AgentMcpServer {
+  name: string;
+  transport: AgentMcpTransportHttp | AgentMcpTransportStdio;
+}
+
+export interface AgentDefinition {
+  id: string;
+  name: string;
+  description: string;
+  instructions?: string;
+  bootstrap_prompt?: string;
+  mcp_servers: AgentMcpServer[];
+  tool_policy: ToolPolicy;
+  default_backend?: string;
+  include_agent_control: boolean;
+  builtin: boolean;
+}
+
+export interface AgentDefinitionEntry extends AgentDefinition {
+  scope: "builtin" | "global" | "project";
 }
 
 export interface RuntimeAgentEvent {
@@ -127,7 +167,7 @@ export interface CommandMap {
       workspaceRoots: string[];
       backendKind?: BackendKind;
       ephemeral?: boolean;
-      conversationMode?: ConversationMode;
+      agentDefinitionId?: string;
     };
     response: CreateConversationResponse;
   };
@@ -462,6 +502,20 @@ export interface CommandMap {
     params: { command: string; cwd: string };
     response: ShellCommandResult;
   };
+
+  // Agent definition operations
+  list_agent_definitions: {
+    params: { workspacePath?: string };
+    response: AgentDefinitionEntry[];
+  };
+  save_agent_definition: {
+    params: { definitionJson: string; scope: string; workspacePath?: string };
+    response: void;
+  };
+  delete_agent_definition: {
+    params: { id: string; scope: string; workspacePath?: string };
+    response: void;
+  };
 }
 
 // --- Utility types ---
@@ -493,6 +547,9 @@ export type DesktopOnlyCommand =
   | "list_workflows"
   | "save_workflow"
   | "delete_workflow"
-  | "run_shell_command";
+  | "run_shell_command"
+  | "list_agent_definitions"
+  | "save_agent_definition"
+  | "delete_agent_definition";
 
 export type SharedCommand = Exclude<CommandName, DesktopOnlyCommand>;
