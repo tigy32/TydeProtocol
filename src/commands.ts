@@ -2,7 +2,7 @@ import type { FileContent, FileEntry, GitFileStatus, ImageAttachment } from "./t
 
 // --- Shared enums/types used by commands ---
 
-export type BackendKind = "tycode" | "codex" | "claude" | "kiro";
+export type BackendKind = "tycode" | "codex" | "claude" | "kiro" | "gemini";
 
 export interface RuntimeAgent {
   agent_id: number;
@@ -112,7 +112,41 @@ export interface BackendDependencyStatus {
   codex: BackendDepResult;
   claude: BackendDepResult;
   kiro: BackendDepResult;
+  gemini: BackendDepResult;
 }
+
+// --- Dev instance types (driver MCP tools) ---
+
+export interface DevInstanceStartParams {
+  project_dir: string;
+  workspace_path?: string;
+  ssh_host?: string;
+  agent_id?: number;
+}
+
+export interface DevInstanceStartResult {
+  instance_id: number;
+  debug_mcp_url: string;
+  status: string;
+}
+
+export interface DevInstanceStopParams {
+  instance_id?: number;
+}
+
+export interface DevInstanceStopResult {
+  status: string;
+}
+
+export interface DevInstanceInfo {
+  instance_id: number;
+  project_dir: string;
+  ssh_host: string | null;
+  agent_id: number | null;
+  debug_mcp_url: string;
+}
+
+// --- Workflow types ---
 
 export interface WorkflowEntry {
   id: string;
