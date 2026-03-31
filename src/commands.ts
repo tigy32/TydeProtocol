@@ -192,6 +192,34 @@ export interface CreateConversationResponse {
   session_id: string;
 }
 
+export interface Host {
+  id: string;
+  label: string;
+  hostname: string;
+  is_local: boolean;
+  enabled_backends: string[];
+  default_backend: string;
+}
+
+export interface BackendUsageWindow {
+  id: string;
+  label: string;
+  used_percent: number | null;
+  reset_at_text: string | null;
+  reset_at_unix: number | null;
+  window_minutes: number | null;
+}
+
+export interface BackendUsageResult {
+  backend_kind: BackendKind;
+  source: string;
+  captured_at_ms: number;
+  plan: string | null;
+  status: string | null;
+  windows: BackendUsageWindow[];
+  details: string[];
+}
+
 // --- The command map ---
 
 export interface CommandMap {
@@ -245,6 +273,10 @@ export interface CommandMap {
   };
   rename_session: {
     params: { id: string; name: string };
+    response: void;
+  };
+  set_session_alias: {
+    params: { id: string; alias: string };
     response: void;
   };
   export_session_json: {
@@ -370,6 +402,10 @@ export interface CommandMap {
   };
 
   // Git operations
+  discover_git_repos: {
+    params: { workspaceDir: string };
+    response: string[];
+  };
   git_current_branch: {
     params: { workingDir: string };
     response: string;
@@ -473,7 +509,47 @@ export interface CommandMap {
     response: DriverMcpHttpServerSettings;
   };
 
+  // Host management
+  list_hosts: {
+    params: Record<string, never>;
+    response: Host[];
+  };
+  add_host: {
+    params: { label: string; hostname: string };
+    response: Host;
+  };
+  remove_host: {
+    params: { id: string };
+    response: void;
+  };
+  update_host_label: {
+    params: { id: string; label: string };
+    response: void;
+  };
+  update_host_enabled_backends: {
+    params: { id: string; backends: string[] };
+    response: void;
+  };
+  update_host_default_backend: {
+    params: { id: string; backend: string };
+    response: void;
+  };
+  get_host_for_workspace: {
+    params: { workspacePath: string };
+    response: Host;
+  };
+
+  // MCP control
+  set_mcp_control_enabled: {
+    params: { enabled: boolean };
+    response: void;
+  };
+
   // Backend management
+  query_backend_usage: {
+    params: { backendKind: BackendKind; hostId?: string };
+    response: BackendUsageResult;
+  };
   check_backend_dependencies: {
     params: Record<string, never>;
     response: BackendDependencyStatus;
@@ -499,6 +575,12 @@ export interface CommandMap {
   shutdown_all_subprocesses: {
     params: Record<string, never>;
     response: void;
+  };
+
+  // Workspace
+  get_initial_workspace: {
+    params: Record<string, never>;
+    response: string | null;
   };
 
   // Other
@@ -561,6 +643,17 @@ export type CommandResponse<K extends CommandName> = CommandMap[K]["response"];
 // --- Platform subsets ---
 
 export type DesktopOnlyCommand =
+  | "get_initial_workspace"
+  | "discover_git_repos"
+  | "list_hosts"
+  | "add_host"
+  | "remove_host"
+  | "update_host_label"
+  | "update_host_enabled_backends"
+  | "update_host_default_backend"
+  | "get_host_for_workspace"
+  | "set_mcp_control_enabled"
+  | "query_backend_usage"
   | "create_terminal"
   | "write_terminal"
   | "resize_terminal"
