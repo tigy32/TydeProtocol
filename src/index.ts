@@ -86,6 +86,7 @@ export type {
   DriverMcpHttpServerSettings,
   Host,
   McpHttpServerSettings,
+  RemoteControlSettings,
   RuntimeAgent,
   RuntimeAgentEvent,
   SessionRecord,

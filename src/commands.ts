@@ -197,8 +197,16 @@ export interface Host {
   label: string;
   hostname: string;
   is_local: boolean;
+  remote_kind: "ssh_pipe" | "tyde_server";
   enabled_backends: string[];
   default_backend: string;
+}
+
+export interface RemoteControlSettings {
+  enabled: boolean;
+  running: boolean;
+  socket_path: string | null;
+  connected_clients: number;
 }
 
 export interface BackendUsageWindow {
@@ -515,7 +523,7 @@ export interface CommandMap {
     response: Host[];
   };
   add_host: {
-    params: { label: string; hostname: string };
+    params: { label: string; hostname: string; remote_kind?: string };
     response: Host;
   };
   remove_host: {
@@ -543,6 +551,16 @@ export interface CommandMap {
   set_mcp_control_enabled: {
     params: { enabled: boolean };
     response: void;
+  };
+
+  // Remote control
+  get_remote_control_settings: {
+    params: Record<string, never>;
+    response: RemoteControlSettings;
+  };
+  set_remote_control_enabled: {
+    params: { enabled: boolean };
+    response: RemoteControlSettings;
   };
 
   // Backend management
@@ -653,6 +671,8 @@ export type DesktopOnlyCommand =
   | "update_host_default_backend"
   | "get_host_for_workspace"
   | "set_mcp_control_enabled"
+  | "get_remote_control_settings"
+  | "set_remote_control_enabled"
   | "query_backend_usage"
   | "create_terminal"
   | "write_terminal"
