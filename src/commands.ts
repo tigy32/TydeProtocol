@@ -5,11 +5,11 @@ import type { FileContent, FileEntry, GitFileStatus, ImageAttachment } from "./t
 export type BackendKind = "tycode" | "codex" | "claude" | "kiro" | "gemini";
 
 export interface RuntimeAgent {
-  agent_id: number;
+  agent_id: string;
   conversation_id: number;
   workspace_roots: string[];
   backend_kind: string;
-  parent_agent_id: number | null;
+  parent_agent_id: string | null;
   name: string;
   agent_type: string | null;
   agent_definition_id: string | null;
@@ -64,7 +64,7 @@ export interface AgentDefinitionEntry extends AgentDefinition {
 
 export interface RuntimeAgentEvent {
   seq: number;
-  agent_id: number;
+  agent_id: string;
   conversation_id: number;
   kind: string;
   is_running: boolean;
@@ -78,7 +78,7 @@ export interface RuntimeAgentEventBatch {
 }
 
 export interface SpawnAgentResponse {
-  agent_id: number;
+  agent_id: string;
   conversation_id: number;
 }
 
@@ -121,7 +121,7 @@ export interface DevInstanceStartParams {
   project_dir: string;
   workspace_path?: string;
   ssh_host?: string;
-  agent_id?: number;
+  agent_id?: string;
 }
 
 export interface DevInstanceStartResult {
@@ -142,7 +142,7 @@ export interface DevInstanceInfo {
   instance_id: number;
   project_dir: string;
   ssh_host: string | null;
-  agent_id: number | null;
+  agent_id: string | null;
   debug_mcp_url: string;
 }
 
@@ -328,30 +328,30 @@ export interface CommandMap {
       workspaceRoots: string[];
       prompt: string;
       backendKind?: BackendKind;
-      parentAgentId?: number;
+      parentAgentId?: string;
       name?: string;
       ephemeral?: boolean;
     };
     response: SpawnAgentResponse;
   };
   send_agent_message: {
-    params: { agentId: number; message: string };
+    params: { agentId: string; message: string };
     response: void;
   };
   interrupt_agent: {
-    params: { agentId: number };
+    params: { agentId: string };
     response: void;
   };
   terminate_agent: {
-    params: { agentId: number };
+    params: { agentId: string };
     response: void;
   };
   rename_agent: {
-    params: { agentId: number; name: string };
+    params: { agentId: string; name: string };
     response: void;
   };
   get_agent: {
-    params: { agentId: number };
+    params: { agentId: string };
     response: RuntimeAgent | null;
   };
   list_agents: {
@@ -359,7 +359,7 @@ export interface CommandMap {
     response: RuntimeAgent[];
   };
   wait_for_agent: {
-    params: { agentId: number; timeoutMs?: number };
+    params: { agentId: string; timeoutMs?: number };
     response: RuntimeAgent;
   };
   agent_events_since: {
@@ -367,7 +367,7 @@ export interface CommandMap {
     response: RuntimeAgentEventBatch;
   };
   collect_agent_result: {
-    params: { agentId: number };
+    params: { agentId: string };
     response: CollectedAgentResult;
   };
 

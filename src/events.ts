@@ -1,12 +1,12 @@
 import type { ChatEvent } from "./types";
 
 export interface ConversationRegisteredData {
-  agent_id: number | null;
+  agent_id: string | null;
   workspace_roots: string[];
   backend_kind: string;
   name: string;
   agent_type: string | null;
-  parent_agent_id: number | null;
+  parent_agent_id: string | null;
 }
 
 export interface ChatEventPayload {
