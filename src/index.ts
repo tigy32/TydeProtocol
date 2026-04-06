@@ -117,6 +117,10 @@ export type {
   TerminalOutputPayload,
 } from "./events";
 
+// Version metadata.
+export { TYDE_PROTOCOL_VERSION } from "./version";
+export type { TydeVersionHeader } from "./version";
+
 // Mock backend for testing.
 export { MockBackend } from "./mock";
 export type { MockBehavior } from "./mock";

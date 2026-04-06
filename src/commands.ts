@@ -7,6 +7,7 @@ export type BackendKind = "tycode" | "codex" | "claude" | "kiro" | "gemini";
 export interface RuntimeAgent {
   agent_id: string;
   conversation_id: number;
+  ui_owner_project_id?: string | null;
   workspace_roots: string[];
   backend_kind: string;
   parent_agent_id: string | null;
@@ -238,6 +239,7 @@ export interface CommandMap {
       backendKind?: BackendKind;
       ephemeral?: boolean;
       agentDefinitionId?: string;
+      uiOwnerProjectId?: string | null;
     };
     response: CreateConversationResponse;
   };
@@ -329,6 +331,7 @@ export interface CommandMap {
       prompt: string;
       backendKind?: BackendKind;
       parentAgentId?: string;
+      uiOwnerProjectId?: string | null;
       name?: string;
       ephemeral?: boolean;
     };

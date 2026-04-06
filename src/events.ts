@@ -7,6 +7,7 @@ export interface ConversationRegisteredData {
   name: string;
   agent_type: string | null;
   parent_agent_id: string | null;
+  ui_owner_project_id?: string | null;
 }
 
 export interface ChatEventPayload {
