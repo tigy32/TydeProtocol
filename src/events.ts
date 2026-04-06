@@ -46,6 +46,24 @@ export interface RemoteConnectionProgress {
   message: string;
 }
 
+export type TydeServerConnectionStateValue =
+  | "connecting"
+  | "connected"
+  | { reconnecting: { attempt: number } }
+  | { disconnected: { reason: string } };
+
+export interface TydeServerConnectionState {
+  host_id: string;
+  state: TydeServerConnectionStateValue;
+}
+
+export interface TydeServerVersionWarning {
+  host_id: string;
+  host: string;
+  local_version: string;
+  remote_version: string;
+}
+
 export interface EventMap {
   "chat-event": ChatEventPayload;
   "admin-event": AdminEventPayload;
@@ -53,6 +71,8 @@ export interface EventMap {
   "terminal-output": TerminalOutputPayload;
   "terminal-exit": TerminalExitPayload;
   "remote-connection-progress": RemoteConnectionProgress;
+  "tyde-server-connection-state": TydeServerConnectionState;
+  "tyde-server-version-warning": TydeServerVersionWarning;
 }
 
 export type EventName = keyof EventMap;

@@ -210,6 +210,13 @@ export interface RemoteControlSettings {
   connected_clients: number;
 }
 
+export interface RemoteServerStatus {
+  status: string;
+  protocol_version: number;
+  tyde_version: string;
+  pid: number;
+}
+
 export interface BackendUsageWindow {
   id: string;
   label: string;
@@ -564,6 +571,10 @@ export interface CommandMap {
   set_remote_control_enabled: {
     params: { enabled: boolean };
     response: RemoteControlSettings;
+  };
+  server_status: {
+    params: Record<string, never>;
+    response: RemoteServerStatus;
   };
 
   // Backend management

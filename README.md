@@ -7,6 +7,7 @@ Shared TypeScript types and runtime parsers for the Tyde IPC/event protocol. Thi
 - **Type definitions** — discriminated unions for `ChatEvent`, `ChatActorMessage`, `CommandMap`, `EventMap`, and all associated payload types.
 - **Generated protocol kinds** — enum-like string literal types generated from the Rust backend (`src/generated/protocol_kinds.ts`).
 - **Runtime parser** — `parseChatEvent()` validates unknown payloads from IPC/network boundaries and returns typed `ChatEvent` objects (or throws `ProtocolParseError`).
+- **Remote handshake metadata** — shared `TYDE_PROTOCOL_VERSION`, `TydeVersionHeader`, and wire frame types for remote control handshakes.
 
 ## Install
 

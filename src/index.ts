@@ -86,6 +86,7 @@ export type {
   DriverMcpHttpServerSettings,
   Host,
   McpHttpServerSettings,
+  RemoteServerStatus,
   RemoteControlSettings,
   RuntimeAgent,
   RuntimeAgentEvent,
@@ -100,6 +101,23 @@ export type {
   WorkflowStepEntry,
 } from "./commands";
 
+// Remote control wire protocol.
+export type {
+  ClientFrame,
+  ClientHandshakeFrame,
+  ClientInvokeFrame,
+  ConversationSnapshot,
+  HandshakeResult,
+  KnownServerEventFrame,
+  ProjectRecord,
+  ServerErrorFrame,
+  ServerEventFrame,
+  ServerFrame,
+  ServerResultFrame,
+  ServerShutdownFrame,
+  WireReqId,
+} from "./remote_control";
+
 // Event protocol.
 export type {
   AdminEventPayload,
@@ -112,14 +130,17 @@ export type {
   EventPayload,
   FileChangedPayload,
   RemoteConnectionProgress,
+  TydeServerConnectionState,
+  TydeServerConnectionStateValue,
+  TydeServerVersionWarning,
   SharedEvent,
   TerminalExitPayload,
   TerminalOutputPayload,
 } from "./events";
 
 // Version metadata.
-export { TYDE_PROTOCOL_VERSION } from "./version";
-export type { TydeVersionHeader } from "./version";
+export { TYDE_PROTOCOL_VERSION, compareTydeVersionHeaders } from "./version";
+export type { TydeVersionCompatibility, TydeVersionHeader } from "./version";
 
 // Mock backend for testing.
 export { MockBackend } from "./mock";
